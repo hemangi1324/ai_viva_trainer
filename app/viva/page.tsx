@@ -58,6 +58,9 @@ export default function VivaPage() {
           subject: session.subject,
           difficulty: session.difficulty,
           isFirstMessage: true,
+          // Pass mode context so the AI can set appropriate depth for first question
+          mainQuestionIndex: 0,
+          previousScores: [],
         }),
       });
 
@@ -100,12 +103,11 @@ export default function VivaPage() {
   if (!session) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p>Loading...</p>
+        <p>Loading…</p>
       </div>
     );
   }
 
-  // Full-screen rate limit view when initial question itself is rate-limited
   if (rateLimitMsg) {
     return <RateLimitScreen message={rateLimitMsg} />;
   }
